@@ -1,47 +1,73 @@
-export const events = [
+export const rhythm = [
   {
-    slug: 'sabbath-worship',
-    title: 'Sabbath School & Worship Service',
-    date: '2026-08-08',
-    time: '9:00 AM – 12:30 PM',
-    location: 'Main Auditorium, Babcock University Campus',
-    description: 'Sabbath School Bible study followed by our Divine Worship Service — our weekly gathering for worship, the Word, and fellowship.',
-    recurring: 'Every Saturday',
+    slug: 'sabbath-school',
+    title: 'Sabbath School',
+    day: 'Every Sabbath',
+    time: '9:00 AM',
+    location: 'New Testament Chapel',
+    description:
+      'The chapel opens the Sabbath with Bible study for every class before the worship service begins.',
   },
   {
-    slug: 'midweek-prayer',
-    title: 'Midweek Prayer Meeting',
-    date: '2026-08-12',
-    time: '6:00 PM – 7:30 PM',
-    location: 'Fellowship Hall',
-    description: 'A time of corporate prayer and a relaxed, discussion-based look at Scripture. Open to all.',
-    recurring: 'Every Wednesday',
+    slug: 'divine-worship',
+    title: 'Divine Worship Service',
+    day: 'Every Sabbath',
+    time: '10:45 AM',
+    location: 'New Testament Chapel',
+    description:
+      'Worship, the Word and the ordinance of humility, with the choir leading the congregation.',
   },
   {
-    slug: 'youth-conference',
-    title: 'Youth Conference 2026',
-    date: '2026-08-22',
-    time: '1:00 PM – 5:00 PM',
-    location: 'Main Auditorium, Babcock University Campus',
-    description: 'An afternoon of worship, workshops, and fellowship for teens and young adults across campus.',
-    recurring: null,
+    slug: 'prayer-meeting',
+    title: 'Prayer Meeting',
+    day: 'Every Wednesday',
+    time: '6:00 PM',
+    location: 'New Testament Chapel',
+    description:
+      'The weekly prayer meeting that keeps the chapel praying between Sabbaths, led by the prayer and chaplaincy departments.',
+  },
+]
+
+export const moments = [
+  {
+    slug: 'worship-praise-nights',
+    title: 'Worship & Praise Nights',
+    description: 'Extended evenings of worship led by the choir and music department.',
   },
   {
-    slug: 'early-morning-prayer',
-    title: 'Early Morning Prayer',
-    date: '2026-08-13',
-    time: '6:00 AM – 7:00 AM',
-    location: 'Chapel Prayer Room',
-    description: 'Corporate prayer to start the day, open to the whole congregation.',
-    recurring: 'Every Thursday',
+    slug: 'hymnal-sabbaths',
+    title: 'Hymnal Sabbaths',
+    description: 'Sabbaths given to the old hymns, taught and sung by the congregation.',
   },
   {
-    slug: 'thanksgiving-communion',
-    title: 'Thanksgiving & Communion Service',
-    date: '2026-08-29',
-    time: '9:00 AM – 1:00 PM',
-    location: 'Main Auditorium, Babcock University Campus',
-    description: 'A special service of gratitude, testimony, and the Ordinance of Humility and Holy Communion.',
-    recurring: null,
+    slug: 'cultural-sabbaths',
+    title: 'Cultural Sabbaths',
+    description: 'Sabbaths that celebrate the languages and cultures of the chapel family.',
+  },
+  {
+    slug: 'week-of-prayers',
+    title: 'Week of Prayers',
+    description: 'A dedicated week set aside for corporate prayer and fasting.',
+  },
+  {
+    slug: 'music-trainings',
+    title: 'Music Trainings',
+    description: 'Instrument and voice training that turns members into ministers.',
+  },
+  {
+    slug: 'visitations',
+    title: 'Visitations',
+    description: 'Visits to orphanages, prisons and hospitals, taking the chapel outside its walls.',
+  },
+  {
+    slug: 'spiritual-emphasis',
+    title: 'Week of Spiritual Emphasis',
+    description:
+      'Music ministration and special songs during the 2025 Babcock Week of Spiritual Emphasis, on the main campus and Iperu campus.',
+  },
+  {
+    slug: 'inauguration-concert',
+    title: 'Inauguration Concert',
+    description: 'The evening of music that marked the chapel\'s official inauguration in March 2025.',
   },
 ]

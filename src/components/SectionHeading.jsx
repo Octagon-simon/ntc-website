@@ -1,20 +1,14 @@
-export default function SectionHeading({ eyebrow, title, description, align = 'left' }) {
-  const alignment = align === 'center' ? 'text-center items-center' : 'text-left items-start'
+export default function SectionHeading({ title, description, align = 'left', className = '' }) {
+  const alignment = align === 'center' ? 'items-center text-center' : 'items-start text-left'
 
   return (
-    <div className={`flex flex-col gap-3 ${alignment}`}>
-      {eyebrow && (
-        <span className="text-sm font-semibold uppercase tracking-wider text-gold-600">
-          {eyebrow}
-        </span>
-      )}
-      <h2 className="text-3xl sm:text-4xl font-serif font-semibold text-primary-800">
+    <div className={`flex flex-col gap-4 ${alignment} ${className}`}>
+      <span aria-hidden="true" className="h-0.5 w-10 bg-gold-500" />
+      <h2 className="font-serif text-3xl font-semibold leading-[1.15] text-primary-900 sm:text-4xl">
         {title}
       </h2>
       {description && (
-        <p className={`text-base sm:text-lg text-primary-700/80 ${align === 'center' ? 'max-w-2xl' : 'max-w-2xl'}`}>
-          {description}
-        </p>
+        <p className="max-w-2xl text-lg leading-relaxed text-primary-800/75">{description}</p>
       )}
     </div>
   )

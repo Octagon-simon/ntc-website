@@ -1,79 +1,90 @@
 import Container from '../components/Container.jsx'
+import PageHeader from '../components/PageHeader.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
 import Reveal from '../components/Reveal.jsx'
-import { events } from '../data/events.js'
-import { CalendarIcon, ClockIcon, MapPinIcon } from '../components/icons.jsx'
+import { rhythm, moments } from '../data/events.js'
+import { chapel } from '../data/chapel.js'
 
-function formatDate(dateStr) {
-  return new Date(dateStr).toLocaleDateString('en-US', {
-    weekday: 'long',
-    month: 'long',
-    day: 'numeric',
-    year: 'numeric',
-  })
-}
+const whatsappHref = `https://wa.me/234${chapel.whatsapp.replace(/\s/g, '').replace(/^0/, '')}`
 
 export default function Events() {
-  const sorted = [...events].sort((a, b) => new Date(a.date) - new Date(b.date))
-
   return (
     <>
-      <section className="bg-primary-50/60 py-16 sm:py-20">
-        <Container>
+      <PageHeader
+        title="The rhythm of the chapel"
+        lede="New Testament Chapel gathers every Sabbath and every Wednesday, and marks the year with Sabbaths and nights of her own."
+      />
+
+      <section className="border-b border-primary-200/70 py-16 sm:py-20">
+        <Container className="flex flex-col gap-10">
+          <Reveal>
+            <SectionHeading title="When we meet" />
+          </Reveal>
+          <ol className="flex flex-col border-b border-primary-200/70">
+            {rhythm.map((item) => (
+              <Reveal
+                as="li"
+                key={item.slug}
+                className="grid gap-3 border-t border-primary-200/70 py-7 sm:grid-cols-12 sm:gap-8"
+              >
+                <p className="text-xs uppercase tracking-[0.16em] text-gold-700 sm:col-span-3 sm:pt-1">
+                  {item.day}
+                </p>
+                <div className="sm:col-span-6">
+                  <h3 className="font-serif text-xl font-semibold text-primary-900">{item.title}</h3>
+                  <p className="mt-2 max-w-prose text-sm leading-relaxed text-primary-800/70">
+                    {item.description}
+                  </p>
+                </div>
+                <div className="text-sm text-primary-800/70 sm:col-span-3 sm:pt-1">
+                  <p className="font-medium text-primary-900">{item.time}</p>
+                  <p className="mt-1">{item.location}</p>
+                </div>
+              </Reveal>
+            ))}
+          </ol>
+        </Container>
+      </section>
+
+      <section className="border-b border-primary-200/70 py-16 sm:py-20">
+        <Container className="flex flex-col gap-10">
           <Reveal>
             <SectionHeading
-              eyebrow="Events"
-              title="What's happening"
-              description="Join us for worship, fellowship, and community — see what's coming up at New Creation Chapel."
+              title="Moments the chapel keeps"
+              description="Programs built for the whole-person development of students, and for worship that leaves the building."
             />
           </Reveal>
+          <div className="grid gap-x-12 sm:grid-cols-2">
+            {moments.map((moment) => (
+              <Reveal key={moment.slug} className="border-t border-primary-200/70 py-6">
+                <h3 className="font-serif text-lg font-semibold text-primary-900">{moment.title}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-primary-800/70">
+                  {moment.description}
+                </p>
+              </Reveal>
+            ))}
+          </div>
         </Container>
       </section>
 
       <section className="py-16 sm:py-20">
-        <Container>
-          <ul className="flex flex-col gap-5">
-            {sorted.map((event, i) => (
-              <Reveal
-                key={event.slug}
-                as="li"
-                delay={(i % 5) * 60}
-                className="flex flex-col gap-4 rounded-xl border border-primary-100 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-0.5 sm:flex-row sm:items-center sm:gap-6"
-              >
-                <div className="flex h-16 w-16 shrink-0 flex-col items-center justify-center rounded-lg bg-primary-100 text-primary-700">
-                  <span className="text-xs font-semibold uppercase">
-                    {new Date(event.date).toLocaleDateString('en-US', { month: 'short' })}
-                  </span>
-                  <span className="text-xl font-bold leading-none">
-                    {new Date(event.date).getDate()}
-                  </span>
-                </div>
-
-                <div className="flex flex-1 flex-col gap-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <h3 className="font-serif text-lg font-semibold text-primary-800">{event.title}</h3>
-                    {event.recurring && (
-                      <span className="inline-flex items-center rounded-full bg-gold-100 px-2.5 py-0.5 text-xs font-semibold text-gold-700">
-                        {event.recurring}
-                      </span>
-                    )}
-                  </div>
-                  <p className="text-sm text-primary-700/80">{event.description}</p>
-                  <div className="flex flex-wrap gap-x-5 gap-y-1 text-xs text-primary-600">
-                    <span className="inline-flex items-center gap-1">
-                      <CalendarIcon className="h-3.5 w-3.5" /> {formatDate(event.date)}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <ClockIcon className="h-3.5 w-3.5" /> {event.time}
-                    </span>
-                    <span className="inline-flex items-center gap-1">
-                      <MapPinIcon className="h-3.5 w-3.5" /> {event.location}
-                    </span>
-                  </div>
-                </div>
-              </Reveal>
-            ))}
-          </ul>
+        <Container className="flex flex-col gap-5">
+          <span aria-hidden="true" className="h-0.5 w-10 bg-gold-500" />
+          <h2 className="max-w-2xl font-serif text-2xl font-semibold text-primary-900 sm:text-3xl">
+            Programs are announced in the chapel group.
+          </h2>
+          <p className="max-w-xl text-primary-800/75">
+            Send NTC to{' '}
+            <a
+              href={whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex min-h-11 items-center font-semibold text-primary-900 underline decoration-gold-500 decoration-2 underline-offset-[6px] hover:decoration-primary-700"
+            >
+              {chapel.whatsapp}
+            </a>{' '}
+            on WhatsApp and we will add you.
+          </p>
         </Container>
       </section>
     </>

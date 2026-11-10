@@ -6,12 +6,9 @@ export default function Reveal({ as: Tag = 'div', delay = 0, className = '', chi
   return (
     <Tag
       ref={ref}
-      className={[
-        'transition-all duration-500 ease-out',
-        inView ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6',
-        className,
-      ].join(' ')}
-      style={{ transitionDelay: inView ? `${delay}ms` : '0ms' }}
+      className={`reveal ${className}`}
+      data-reveal={inView ? 'in' : 'out'}
+      style={delay ? { transitionDelay: `${delay}ms` } : undefined}
       {...props}
     >
       {children}

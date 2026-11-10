@@ -1,18 +1,18 @@
 import { useState } from 'react'
 import Container from '../components/Container.jsx'
-import SectionHeading from '../components/SectionHeading.jsx'
+import PageHeader from '../components/PageHeader.jsx'
 import Reveal from '../components/Reveal.jsx'
-import { MailIcon, PhoneIcon, MapPinIcon, ClockIcon } from '../components/icons.jsx'
+import { chapel, serviceTimes } from '../data/chapel.js'
 
-const serviceTimes = [
-  { label: 'Sabbath School', time: 'Saturdays, 9:00 AM' },
-  { label: 'Divine Worship Service', time: 'Saturdays, 10:45 AM' },
-  { label: 'Midweek Prayer Meeting', time: 'Wednesdays, 6:00 PM' },
-]
+const whatsappNumber = `234${chapel.whatsapp.replace(/\s/g, '').replace(/^0/, '')}`
+
+const field =
+  'min-h-11 w-full rounded-md border border-primary-400 bg-white px-4 py-2.5 text-base text-primary-900'
 
 export default function Contact() {
   const [status, setStatus] = useState('idle')
   const [errors, setErrors] = useState({})
+  const [draft, setDraft] = useState('')
 
   function handleSubmit(e) {
     e.preventDefault()
@@ -31,43 +31,57 @@ export default function Contact() {
     if (!message) nextErrors.message = 'Please enter a message.'
 
     setErrors(nextErrors)
-    if (Object.keys(nextErrors).length === 0) {
-      setStatus('success')
-      e.target.reset()
-    }
+    if (Object.keys(nextErrors).length > 0) return
+
+    const text = `Name: ${name}\nEmail: ${email}\n\n${message}`
+    const opened = window.open(
+      `https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`,
+      '_blank',
+      'noopener',
+    )
+    setDraft(`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(text)}`)
+    setStatus(opened ? 'sent' : 'blocked')
+    if (opened) e.target.reset()
   }
 
   return (
     <>
-      <section className="bg-primary-50/60 py-16 sm:py-20">
-        <Container>
-          <Reveal>
-            <SectionHeading
-              eyebrow="Contact"
-              title="We'd love to hear from you"
-              description="Have a question, prayer request, or just want to say hello? Reach out — we'll get back to you soon."
-            />
-          </Reveal>
-        </Container>
-      </section>
+      <PageHeader
+        title="We would love to hear from you"
+        lede="A question, a prayer request, or just to say hello. Write it here and we will pick it up on the chapel WhatsApp line."
+      />
 
-      <section className="py-16 sm:py-20">
-        <Container className="grid gap-12 lg:grid-cols-5">
-          <Reveal className="lg:col-span-3">
-            <form onSubmit={handleSubmit} noValidate className="flex flex-col gap-5">
-              {status === 'success' && (
-                <div
-                  role="status"
-                  aria-live="polite"
-                  className="animate-fade-slide-down rounded-md bg-primary-100 px-4 py-3 text-sm font-medium text-primary-800"
-                >
-                  Thank you — your message has been sent. We'll be in touch soon.
+      <section className="py-10 sm:py-16">
+        <Container className="grid gap-12 lg:grid-cols-12 lg:gap-16">
+          <Reveal className="lg:col-span-7">
+            <form onSubmit={handleSubmit} noValidate className="flex max-w-lg flex-col gap-5">
+              {status !== 'idle' && (
+                <div aria-live="polite">
+                  {status === 'sent' && (
+                    <p className="animate-fade-slide-down rounded-md bg-primary-100 px-4 py-3 text-sm text-primary-900">
+                      Your message is open in WhatsApp. Press send there and we will receive it.
+                    </p>
+                  )}
+                  {status === 'blocked' && (
+                    <p className="rounded-md bg-gold-100 px-4 py-3 text-sm text-primary-900">
+                      Your browser blocked the WhatsApp tab.{' '}
+                      <a
+                        href={draft}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-semibold underline decoration-gold-500 decoration-2 underline-offset-4"
+                      >
+                        Open it here
+                      </a>{' '}
+                      to finish sending.
+                    </p>
+                  )}
                 </div>
               )}
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="name" className="text-sm font-medium text-primary-800">
-                  Full name <span className="text-gold-600">*</span>
+                <label htmlFor="name" className="text-sm font-medium text-primary-900">
+                  Full name
                 </label>
                 <input
                   id="name"
@@ -76,16 +90,18 @@ export default function Contact() {
                   autoComplete="name"
                   aria-invalid={Boolean(errors.name)}
                   aria-describedby={errors.name ? 'name-error' : undefined}
-                  className="rounded-md border border-primary-200 px-4 py-2.5 text-primary-900 focus:border-primary-500"
+                  className={field}
                 />
                 {errors.name && (
-                  <p id="name-error" className="text-sm text-red-600">{errors.name}</p>
+                  <p id="name-error" className="text-sm text-red-700">
+                    {errors.name}
+                  </p>
                 )}
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="email" className="text-sm font-medium text-primary-800">
-                  Email address <span className="text-gold-600">*</span>
+                <label htmlFor="email" className="text-sm font-medium text-primary-900">
+                  Email
                 </label>
                 <input
                   id="email"
@@ -94,77 +110,84 @@ export default function Contact() {
                   autoComplete="email"
                   aria-invalid={Boolean(errors.email)}
                   aria-describedby={errors.email ? 'email-error' : undefined}
-                  className="rounded-md border border-primary-200 px-4 py-2.5 text-primary-900 focus:border-primary-500"
+                  className={field}
                 />
                 {errors.email && (
-                  <p id="email-error" className="text-sm text-red-600">{errors.email}</p>
+                  <p id="email-error" className="text-sm text-red-700">
+                    {errors.email}
+                  </p>
                 )}
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <label htmlFor="message" className="text-sm font-medium text-primary-800">
-                  Message <span className="text-gold-600">*</span>
+                <label htmlFor="message" className="text-sm font-medium text-primary-900">
+                  Message
                 </label>
                 <textarea
                   id="message"
                   name="message"
-                  rows={5}
+                  rows={4}
                   aria-invalid={Boolean(errors.message)}
                   aria-describedby={errors.message ? 'message-error' : undefined}
-                  className="rounded-md border border-primary-200 px-4 py-2.5 text-primary-900 focus:border-primary-500"
+                  className={`${field} resize-none`}
                 />
                 {errors.message && (
-                  <p id="message-error" className="text-sm text-red-600">{errors.message}</p>
+                  <p id="message-error" className="text-sm text-red-700">
+                    {errors.message}
+                  </p>
                 )}
               </div>
 
               <button
                 type="submit"
-                className="inline-flex w-fit items-center rounded-md bg-primary-600 px-6 py-3 text-base font-semibold text-white shadow-sm transition-all duration-200 hover:bg-primary-700 active:scale-95 cursor-pointer"
+                className="mt-2 inline-flex min-h-11 w-fit items-center rounded-md bg-primary-600 px-6 text-base font-semibold text-white shadow-sm transition-colors duration-200 hover:bg-primary-700 cursor-pointer"
               >
-                Send Message
+                Send via WhatsApp
               </button>
             </form>
           </Reveal>
 
-          <Reveal delay={120} className="lg:col-span-2 flex flex-col gap-8">
-            <div className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm">
-              <h3 className="font-serif text-lg font-semibold text-primary-800">Service Times</h3>
-              <ul className="mt-4 flex flex-col gap-3">
-                {serviceTimes.map((s) => (
-                  <li key={s.label} className="flex items-start gap-3 text-sm">
-                    <ClockIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
-                    <span>
-                      <span className="font-medium text-primary-800">{s.label}</span>
-                      <span className="block text-primary-600">{s.time}</span>
-                    </span>
-                  </li>
+          <Reveal delay={100} className="flex flex-col gap-10 lg:col-span-5">
+            <div>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-700">
+                Service times
+              </h2>
+              <dl className="mt-4 flex flex-col">
+                {serviceTimes.map((service) => (
+                  <div
+                    key={service.label}
+                    className="flex items-baseline justify-between gap-4 border-t border-primary-200/70 py-3 text-sm"
+                  >
+                    <dt className="font-medium text-primary-900">{service.label}</dt>
+                    <dd className="text-primary-800/70">
+                      {service.day}, {service.time}
+                    </dd>
+                  </div>
                 ))}
-              </ul>
+              </dl>
             </div>
 
-            <div className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm">
-              <h3 className="font-serif text-lg font-semibold text-primary-800">Get in Touch</h3>
-              <ul className="mt-4 flex flex-col gap-3 text-sm">
-                <li className="flex items-start gap-3">
-                  <MapPinIcon className="mt-0.5 h-4 w-4 shrink-0 text-gold-600" />
-                  <span className="text-primary-700">Babcock University Campus, Ilishan-Remo, Ogun State, Nigeria</span>
-                </li>
-                <li className="flex items-center gap-3">
-                  <PhoneIcon className="h-4 w-4 shrink-0 text-gold-600" />
-                  <a href="tel:+2340000000000" className="text-primary-700 hover:text-primary-900">+234 000 000 0000</a>
-                </li>
-                <li className="flex items-center gap-3">
-                  <MailIcon className="h-4 w-4 shrink-0 text-gold-600" />
-                  <a href="mailto:hello@newcreationchapel.org" className="text-primary-700 hover:text-primary-900">
-                    hello@newcreationchapel.org
-                  </a>
-                </li>
-              </ul>
-            </div>
-
-            <div className="aspect-video w-full rounded-xl bg-primary-100 flex items-center justify-center text-sm text-primary-500">
-              Map placeholder
+            <div>
+              <h2 className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-700">
+                Find us
+              </h2>
+              <p className="mt-4 border-t border-primary-200/70 pt-4 text-sm leading-relaxed text-primary-800/75">
+                {chapel.university} Campus, {chapel.location}, Nigeria
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-primary-800/75">
+                WhatsApp{' '}
+                <a
+                  href={`https://wa.me/${whatsappNumber}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex min-h-11 items-center font-medium text-primary-900 underline decoration-gold-500 decoration-2 underline-offset-[6px] hover:decoration-primary-700"
+                >
+                  {chapel.whatsapp}
+                </a>
+                <span className="block text-primary-800/70">
+                  Send NTC to be added to the chapel group.
+                </span>
+              </p>
             </div>
           </Reveal>
         </Container>

@@ -1,70 +1,91 @@
 import Container from '../components/Container.jsx'
+import PageHeader from '../components/PageHeader.jsx'
 import SectionHeading from '../components/SectionHeading.jsx'
 import Reveal from '../components/Reveal.jsx'
-import { departments, tiers } from '../data/departments.js'
+import TextLink from '../components/TextLink.jsx'
+import { PersonCard } from '../components/PersonCard.jsx'
+import { departments, structure } from '../data/departments.js'
+import { studentLeaders } from '../data/leadership.js'
 import { departmentIcons } from '../components/icons.jsx'
 
 export default function Ministries() {
   return (
     <>
-      <section className="bg-primary-50/60 py-16 sm:py-20">
-        <Container>
-          <Reveal>
-            <SectionHeading
-              eyebrow="Ministries"
-              title="Find your place to serve and grow"
-              description="New Creation Chapel runs through the service of its members. Every department exists to help people take a next step in faith and community — explore where you might belong."
-            />
-          </Reveal>
-        </Container>
-      </section>
+      <PageHeader
+        title="Find your place to serve"
+        lede="Every department of the chapel is a post. Each one is led by a pastor and headed by a student HOD, and each one needs members."
+      />
 
-      <section className="py-16 sm:py-20">
+      <section className="border-b border-primary-200/70 py-16 sm:py-20">
         <Container className="flex flex-col gap-10">
           <Reveal>
-            <SectionHeading eyebrow="Our Structure" title="How the church is organized" />
+            <SectionHeading title="How the chapel is organized" />
           </Reveal>
-          <div className="grid gap-6 sm:grid-cols-3">
-            {tiers.map((tier, i) => (
+          <div className="grid gap-0 sm:grid-cols-3 sm:gap-10">
+            {structure.map((tier) => (
               <Reveal
                 key={tier.name}
-                delay={i * 100}
-                className="rounded-xl border border-primary-100 bg-white p-6 shadow-sm"
+                className="border-t border-primary-200/70 py-6 sm:border-t-0 sm:border-l sm:border-primary-200/70 sm:py-0 sm:pl-8 sm:first:border-l-0 sm:first:pl-0"
               >
-                <span className="inline-flex items-center rounded-full bg-primary-100 px-3 py-1 text-xs font-semibold text-primary-700">
-                  Tier {i + 1}
-                </span>
-                <h3 className="mt-3 font-serif text-lg font-semibold text-primary-800">{tier.name}</h3>
-                <p className="mt-2 text-sm text-primary-700/80">{tier.description}</p>
+                <h3 className="font-serif text-lg font-semibold text-primary-900">{tier.name}</h3>
+                <p className="mt-2 text-sm leading-relaxed text-primary-800/70">{tier.description}</p>
               </Reveal>
             ))}
           </div>
         </Container>
       </section>
 
-      <section className="bg-primary-50/60 py-16 sm:py-20">
+      <section className="border-b border-primary-200/70 py-16 sm:py-20">
         <Container className="flex flex-col gap-10">
           <Reveal>
-            <SectionHeading eyebrow="Departments" title="20 departments, one church family" />
+            <SectionHeading
+              title="Ten departments, one chapel"
+              description="Each department below carries a student Head of Department and a pastor who oversees it."
+            />
           </Reveal>
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            {departments.map((dept, i) => {
-              const Icon = departmentIcons[dept.icon]
+          <div className="grid gap-x-12 sm:grid-cols-2">
+            {departments.map((dept) => {
+              const Icon = departmentIcons[dept.icon] ?? departmentIcons.Book
               return (
                 <Reveal
                   key={dept.slug}
-                  delay={(i % 4) * 80}
-                  className="flex flex-col gap-3 rounded-xl border border-primary-100 bg-white p-6 shadow-sm transition-all duration-200 hover:shadow-md hover:-translate-y-1"
+                  className="flex gap-4 border-t border-primary-200/70 py-6"
                 >
-                  <span className="flex h-11 w-11 items-center justify-center rounded-lg bg-primary-100 text-primary-700">
-                    <Icon className="h-6 w-6" />
-                  </span>
-                  <h3 className="font-serif text-base font-semibold text-primary-800">{dept.name}</h3>
-                  <p className="text-sm text-primary-700/80">{dept.summary}</p>
+                  <Icon className="mt-1 h-5 w-5 shrink-0 text-gold-700" />
+                  <div className="flex flex-col gap-1">
+                    <h3 className="font-serif text-lg font-semibold text-primary-900">
+                      {dept.name}
+                    </h3>
+                    <p className="text-sm leading-relaxed text-primary-800/70">{dept.summary}</p>
+                    <p className="mt-2 text-xs text-primary-800/70">
+                      HOD {dept.hod}
+                      {dept.units ? ` · ${dept.units.join(', ')}` : ''}
+                    </p>
+                    <p className="text-xs text-primary-800/70">Oversight: {dept.oversight}</p>
+                  </div>
                 </Reveal>
               )
             })}
           </div>
+        </Container>
+      </section>
+
+      <section className="border-b border-primary-200/70 py-16 sm:py-20">
+        <Container className="flex flex-col gap-10">
+          <Reveal>
+            <SectionHeading
+              title="Students heading departments"
+              description="Samantha and Daniel hold departmental portfolios for the chapel while studying full time."
+            />
+          </Reveal>
+          <div className="grid gap-8 sm:grid-cols-2 lg:max-w-3xl">
+            {studentLeaders.map((person) => (
+              <Reveal key={person.id}>
+                <PersonCard person={person} compact />
+              </Reveal>
+            ))}
+          </div>
+          <TextLink to="/leadership">Meet the full leadership</TextLink>
         </Container>
       </section>
     </>

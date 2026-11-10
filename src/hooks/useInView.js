@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 
-export function useInView({ threshold = 0.15, rootMargin = '0px 0px -60px 0px' } = {}) {
+export function useInView({ threshold = 0, rootMargin = '0px 0px -40px 0px' } = {}) {
   const ref = useRef(null)
   const [inView, setInView] = useState(false)
 

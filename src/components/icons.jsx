@@ -1,5 +1,4 @@
-// Lightweight inline SVG icon set (stroke-based, 1.75px weight) — avoids an extra
-// dependency while keeping icons vector, themeable, and visually consistent.
+// Inline SVG icon set: stroke based, themeable, no extra dependency.
 const base = {
   fill: 'none',
   stroke: 'currentColor',
@@ -147,15 +146,6 @@ export function PhoneIcon(props) {
   return (
     <svg viewBox="0 0 24 24" width={24} height={24} {...base} {...props}>
       <path d="M5 4h3.5l1.5 4-2 1.5a11 11 0 0 0 5.5 5.5l1.5-2 4 1.5V18a2 2 0 0 1-2 2C10.5 20 4 13.5 4 6a2 2 0 0 1 1-2Z" />
-    </svg>
-  )
-}
-
-export function ArrowRightIcon(props) {
-  return (
-    <svg viewBox="0 0 24 24" width={24} height={24} {...base} {...props}>
-      <line x1="4" y1="12" x2="20" y2="12" />
-      <path d="M14 6l6 6-6 6" />
     </svg>
   )
 }

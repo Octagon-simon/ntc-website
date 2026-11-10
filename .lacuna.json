@@ -1,0 +1,22 @@
+{
+  "provider": "openai-compatible",
+  "model": "deepseek-chat",
+  "sourceDir": "src",
+  "threshold": 80,
+  "mocksFile": "test/mocks.ts",
+  "setupFile": "test/setup.ts",
+  "coverageFormat": "lcov",
+  "coverageDir": "coverage",
+  "maxIterations": 3,
+  "coverageTimeout": 300,
+  "ignore": [],
+  "baseURL": "https://api.deepseek.com/v1",
+  "apiKeyEnv": "DEEPSEEK_API_KEY",
+  "maxTokens": 16000,
+  "testEnv": {},
+  "debug": true,
+  "format": true,
+  "nodeEnvRouting": true,
+  "memory": {},
+  "testRunner": "vitest"
+}

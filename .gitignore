@@ -3,3 +3,18 @@ dist
 dist-ssr
 *.local
 .DS_Store
+
+# local-only plaintext of the credit guard; regenerate with npm run credit:build
+scripts/credit-guard.src.js
+
+# editor/tool backups and reports
+*.bak
+coverage
+terminal_logs
+lacuna-debug*.txt
+
+# source material the site was built from, not shipped
+New testament chapel Brief History.pptx
+WhatsApp Unknown*
+people
+people 2/
